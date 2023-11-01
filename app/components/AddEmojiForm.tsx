@@ -13,23 +13,15 @@ export default function AddEmojiForm() {
     setText("");
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    const target = e.target as typeof e.target & {
-      emoji: { value: string };
-      title: { value: string };
-    };
-    console.log(target.emoji.value);
-
-    const today = dayjs().valueOf();
-    const id = uuidv4();
-
-    const emojiItem: EmojiItemType = {
-      text: target.emoji.value,
-      title: target.title.value,
-      id: id,
-    };
+    const target = event.target as HTMLFormElement;
+    const formData = new FormData(target);
+    const text = formData.get("text");
+    const title = formData.get("title");
+    console.log(text);
+    console.log(title);
     // TODO: POST request
     clearState();
   };
@@ -45,6 +37,7 @@ export default function AddEmojiForm() {
           maxLength={20}
           value={titleStr}
           onChange={(e) => setTitleStr(e.target.value)}
+          className="border-solid border-2 border-orange-200"
         />
       </label>
       <label htmlFor="" className="flex flex-col">
@@ -60,11 +53,13 @@ export default function AddEmojiForm() {
           onChange={(e) => {
             setText(e.target.value);
           }}
-          className="text-black"
+          className="border-solid border-2 border-orange-200"
         ></textarea>
       </label>
       <div className="flex justify-end">
-        <button className=" bg-rose-400 rounded p-2 mt-4">submit</button>
+        <button className="bg-orange-600 text-white rounded p-2 mt-4">
+          Submit
+        </button>
       </div>
     </form>
   );

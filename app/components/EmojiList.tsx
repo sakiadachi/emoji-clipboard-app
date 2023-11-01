@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { EmojiItemType } from "../data/EmojiData";
-import axios from "axios";
 
 export default function EmojiList() {
   const [showMsgId, setShowMsgId] = useState("");
@@ -10,7 +9,7 @@ export default function EmojiList() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/clipboards/")
+    fetch("http://127.0.0.1:8000/clipboards/", { credentials: "include" })
       .then((res) => res.json())
       .then((result) => {
         console.log(result);

@@ -3,7 +3,7 @@ import AddEmojiForm from "./components/AddEmojiForm";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col p-24">
+    <main className="flex min-h-screen flex-col p-12 max-w-lg mx-auto">
       <AddEmojiForm />
       <hr className="my-4" />
       <EmojiList />
