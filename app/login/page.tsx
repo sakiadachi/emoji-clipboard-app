@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
+import { getCookie } from "../hooks/useCookie";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,6 +18,9 @@ export default function LoginPage() {
     const username = formData.get("username");
     const password = formData.get("password");
 
+    const baseHeaders = { "Content-Type": "application/json" };
+    const csrftoken = getCookie("csrftoken");
+    console.log(csrftoken);
     /**
      * Login request
      */
@@ -24,8 +28,8 @@ export default function LoginPage() {
       method: "POST",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        ...baseHeaders,
+        // ...(csrftoken ? { "X-CSRFToken": csrftoken } : {}),
       },
       body: JSON.stringify({
         username,

@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { FormEvent, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { EmojiItemType } from "../data/EmojiData";
+import { getCookie } from "../hooks/useCookie";
 
 export default function AddEmojiForm() {
   const [textStr, setText] = useState("");
@@ -13,7 +14,7 @@ export default function AddEmojiForm() {
     setText("");
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const target = event.target as HTMLFormElement;
@@ -22,6 +23,25 @@ export default function AddEmojiForm() {
     const title = formData.get("title");
     console.log(text);
     console.log(title);
+    const baseHeaders = { "Content-Type": "application/json" };
+    const csrftoken = getCookie("csrftoken");
+
+    const response = await fetch("http://127.0.0.1:8000/clipboards/", {
+      method: "POST",
+      credentials: "include",
+      headers: csrftoken
+        ? { ...baseHeaders, "X-CSRFToken": csrftoken }
+        : baseHeaders,
+      body: JSON.stringify({
+        title,
+        text,
+      }),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      console.error(error);
+    }
+
     // TODO: POST request
     clearState();
   };
