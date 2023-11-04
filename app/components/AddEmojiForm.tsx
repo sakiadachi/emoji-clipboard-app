@@ -1,38 +1,46 @@
 "use client";
 
-import dayjs from "dayjs";
 import { FormEvent, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { EmojiItem } from "../data/EmojiData";
+import { getCookie } from "../hooks/useCookie";
 
 export default function AddEmojiForm() {
-  const [emojiStr, setEmojiStr] = useState("");
+  const [textStr, setText] = useState("");
   const [titleStr, setTitleStr] = useState("");
 
   const clearState = () => {
-    setEmojiStr("");
+    setText("");
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    const target = e.target as typeof e.target & {
-      emoji: { value: string };
-      title: { value: string };
-    };
-    console.log(target.emoji.value);
+    const target = event.target as HTMLFormElement;
+    const formData = new FormData(target);
+    const text = formData.get("text");
+    const title = formData.get("title");
 
-    const today = dayjs().valueOf();
-    const id = uuidv4();
+    const baseHeaders = { "Content-Type": "application/json" };
+    const csrftoken = getCookie("csrftoken");
 
-    const emojiItem: EmojiItem = {
-      emoji: target.emoji.value,
-      title: target.title.value,
-      createdDate: today,
-      order: 0,
-      id: id,
-    };
-    // TODO: POST request
+    const response = await fetch("http://localhost:8000/api/clipboards/", {
+      method: "POST",
+      credentials: "include",
+      headers: csrftoken
+        ? {
+            ...baseHeaders,
+            "X-CSRFToken": csrftoken,
+          }
+        : baseHeaders,
+      body: JSON.stringify({
+        title,
+        text,
+      }),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      console.error(error);
+    }
+
     clearState();
   };
 
@@ -47,26 +55,29 @@ export default function AddEmojiForm() {
           maxLength={20}
           value={titleStr}
           onChange={(e) => setTitleStr(e.target.value)}
+          className="border-solid border-2 border-orange-200"
         />
       </label>
       <label htmlFor="" className="flex flex-col">
-        Emoji
+        Text
         <textarea
-          name="emoji"
-          id="emoji-form"
+          name="text"
+          id="clipboard-form"
           cols={30}
           rows={8}
           maxLength={200}
           placeholder="( ˘ω˘ )ｽﾔｧ…"
-          value={emojiStr}
+          value={textStr}
           onChange={(e) => {
-            setEmojiStr(e.target.value);
+            setText(e.target.value);
           }}
-          className="text-black"
+          className="border-solid border-2 border-orange-200"
         ></textarea>
       </label>
       <div className="flex justify-end">
-        <button className=" bg-rose-400 rounded p-2 mt-4">submit</button>
+        <button className="bg-orange-600 text-white rounded p-2 mt-4">
+          Submit
+        </button>
       </div>
     </form>
   );
