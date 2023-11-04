@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
-import { getCookie } from "../hooks/useCookie";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,8 +18,7 @@ export default function LoginPage() {
     const password = formData.get("password");
 
     const baseHeaders = { "Content-Type": "application/json" };
-    const csrftoken = getCookie("csrftoken");
-    console.log(csrftoken);
+
     /**
      * Login request
      */
