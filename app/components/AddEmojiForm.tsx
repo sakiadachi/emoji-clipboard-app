@@ -22,7 +22,7 @@ export default function AddEmojiForm() {
     const baseHeaders = { "Content-Type": "application/json" };
     const csrftoken = getCookie("csrftoken");
 
-    const response = await fetch("http://localhost:8000/api/v1/clipboards/", {
+    const response = await fetch("http://localhost:8000/api/clipboards/", {
       method: "POST",
       credentials: "include",
       headers: csrftoken

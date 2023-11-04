@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { EmojiItemType } from "../data/EmojiData";
 
 async function fetchClipboards(): Promise<EmojiItemType[]> {
-  const response = await fetch("http://localhost:8000/api/v1/clipboards/", {
+  const response = await fetch("http://localhost:8000/api/clipboards/", {
     method: "GET",
     credentials: "include",
   });
