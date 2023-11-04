@@ -2,34 +2,46 @@
 
 import { useEffect, useState } from "react";
 import { EmojiItemType } from "../data/EmojiData";
+import { getCookie } from "../hooks/useCookie";
+
+async function fetchClipboards(): Promise<EmojiItemType[]> {
+  const csrftoken = getCookie("csrftoken");
+  console.log(csrftoken);
+
+  const response = await fetch("http://localhost:8000/api/v1/clipboards/", {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    const error = response.json();
+    console.error(error);
+    return [];
+  }
+  return response.json();
+}
 
 export default function EmojiList() {
-  const [showMsgId, setShowMsgId] = useState("");
   const [clipboards, setClipboardList] = useState<EmojiItemType[]>([]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/clipboards/", { credentials: "include" })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-        setClipboardList(result);
-        setLoading(false);
-      })
-      .catch((err) => console.error(err));
+    const fetchData = async () => {
+      setLoading(true);
+      const result = await fetchClipboards();
+      setClipboardList(result);
+      setLoading(false);
+    };
+    fetchData();
   }, []);
 
   const copyToClipboard = async (item: EmojiItemType) => {
     navigator.clipboard.writeText(item.text).then(() => {
-      setShowMsgId(item.id);
-      setTimeout(() => {
-        setShowMsgId("");
-      }, 1000);
+      window.prompt("Copied");
     });
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (!clipboards) return <p>No profile data</p>;
+  if (isLoading) return <p>Loading ...</p>;
+  if (clipboards.length === 0) return <p>no data</p>;
 
   return (
     <div>
@@ -43,7 +55,6 @@ export default function EmojiList() {
               {item.title}
               {item.text}
             </button>
-            {showMsgId === item.id && <span>Copied!</span>}
           </li>
         ))}
       </ul>
