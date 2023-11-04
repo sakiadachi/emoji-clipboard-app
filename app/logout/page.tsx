@@ -9,7 +9,6 @@ export default function LoginPage() {
   );
   useEffect(() => {
     const fetchData = async () => {
-      const baseHeaders = { "Content-Type": "application/json" };
       const csrftoken = getCookie("csrftoken");
       if (!csrftoken) {
         throw new Error("CSRF Token missing");

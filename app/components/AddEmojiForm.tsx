@@ -1,9 +1,6 @@
 "use client";
 
-import dayjs from "dayjs";
 import { FormEvent, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { EmojiItemType } from "../data/EmojiData";
 import { getCookie } from "../hooks/useCookie";
 
 export default function AddEmojiForm() {
@@ -21,8 +18,7 @@ export default function AddEmojiForm() {
     const formData = new FormData(target);
     const text = formData.get("text");
     const title = formData.get("title");
-    console.log(text);
-    console.log(title);
+
     const baseHeaders = { "Content-Type": "application/json" };
     const csrftoken = getCookie("csrftoken");
 

@@ -30,7 +30,6 @@ export default function LoginPage() {
 
       headers: {
         ...baseHeaders,
-        // ...(csrftoken ? { "X-CSRFToken": csrftoken } : {}),
       },
       body: JSON.stringify({
         username,

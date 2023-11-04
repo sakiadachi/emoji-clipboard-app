@@ -2,12 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { EmojiItemType } from "../data/EmojiData";
-import { getCookie } from "../hooks/useCookie";
 
 async function fetchClipboards(): Promise<EmojiItemType[]> {
-  const csrftoken = getCookie("csrftoken");
-  console.log(csrftoken);
-
   const response = await fetch("http://localhost:8000/api/v1/clipboards/", {
     method: "GET",
     credentials: "include",
