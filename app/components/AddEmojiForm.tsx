@@ -26,14 +26,13 @@ export default function AddEmojiForm() {
     const baseHeaders = { "Content-Type": "application/json" };
     const csrftoken = getCookie("csrftoken");
 
-    const response = await fetch("http://127.0.0.1:8000/api/v1/clipboards/", {
+    const response = await fetch("http://localhost:8000/api/v1/clipboards/", {
       method: "POST",
       credentials: "include",
       headers: csrftoken
         ? {
             ...baseHeaders,
             "X-CSRFToken": csrftoken,
-            Authorization: "Token " + csrftoken,
           }
         : baseHeaders,
       body: JSON.stringify({
