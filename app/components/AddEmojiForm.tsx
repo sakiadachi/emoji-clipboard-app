@@ -50,6 +50,7 @@ export default function AddEmojiForm() {
       <label htmlFor="" className="flex flex-col">
         Title:
         <input
+          required
           name="title"
           type="text"
           placeholder="スヤァ"
@@ -62,6 +63,7 @@ export default function AddEmojiForm() {
       <label htmlFor="" className="flex flex-col">
         Text
         <textarea
+          required
           name="text"
           id="clipboard-form"
           cols={30}
