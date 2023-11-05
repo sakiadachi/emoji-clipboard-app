@@ -4,11 +4,12 @@ import Header from "./components/Header";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col p-12 max-w-lg mx-auto">
+    <main className="min-h-screen max-w-screen-md mx-auto p-10">
       <Header />
-      <AddEmojiForm />
-      <hr className="my-4" />
-      <EmojiList />
+      <div className="gap-4">
+        <AddEmojiForm />
+        <EmojiList />
+      </div>
     </main>
   );
 }

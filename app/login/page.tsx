@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
+import PrimaryButton from "../components/PrimaryButton";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,17 +18,14 @@ export default function LoginPage() {
     const username = formData.get("username");
     const password = formData.get("password");
 
-    const baseHeaders = { "Content-Type": "application/json" };
-
     /**
      * Login request
      */
     const response = await fetch("http://localhost:8000/auth/login/", {
       method: "POST",
       credentials: "include",
-
       headers: {
-        ...baseHeaders,
+        ...{ "Content-Type": "application/json" },
       },
       body: JSON.stringify({
         username,
@@ -44,30 +42,25 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col p-12 max-w-lg mx-auto">
-      <form onSubmit={handleSubmit} className="flex flex-col">
-        <label className="flex flex-col mb-4">
-          Username:
-          <input
-            type="text"
-            name="username"
-            className="border-solid border-2 border-orange-200"
-          />
+    <main className="min-h-screen  max-w-lg mx-auto flex items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col grow p-12 border rounded"
+      >
+        <label className="flex flex-col mb-6 leading-8">
+          User Name:
+          <input type="text" name="username" className="mt-2" />
         </label>
-        <label className="flex flex-col mb-4">
+        <label className="flex flex-col mb-10 leading-8">
           Password:
-          <input
-            type="password"
-            name="password"
-            className="border-solid border-2 border-orange-200"
-          />
+          <input type="password" name="password" className="mt-2" />
         </label>
-        <button
-          type="submit"
-          className="bg-orange-600 text-white rounded p-2 mt-4"
-        >
-          Login
-        </button>
+
+        <PrimaryButton
+          type={"submit"}
+          text={"Login"}
+          additionalClassName={"h-12"}
+        />
       </form>
     </main>
   );

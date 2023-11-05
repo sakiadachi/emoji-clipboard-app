@@ -31,9 +31,12 @@ export default function EmojiList() {
   }, []);
 
   const copyToClipboard = async (item: EmojiItemType) => {
-    navigator.clipboard.writeText(item.text).then(() => {
-      window.prompt("Copied");
-    });
+    try {
+      await navigator.clipboard.writeText(item.text);
+      alert("Copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
   };
 
   if (isLoading) return <p>Loading ...</p>;
@@ -41,16 +44,27 @@ export default function EmojiList() {
 
   return (
     <div>
+      <h1 className="text-xl mb-4">Clipboard List</h1>
       <ul>
         {clipboards.map((item) => (
           <li key={item.id} className="mb-4">
-            <button
-              onClick={() => copyToClipboard(item)}
-              className="w-full bg-slate-100 text-black rounded text-lg pa-3"
+            <div
+              onClick={() => {
+                copyToClipboard(item);
+              }}
+              className="pointer-events-auto  w-full bg-slate-50 hover:bg-slate-100 text-black rounded text-lg p-4"
             >
-              {item.title}
-              {item.text}
-            </button>
+              <p>{item.title}</p>
+              <p className="whitespace-pre-line break-words ">{item.text}</p>
+              <div className="flex justify-end">
+                <button
+                  onClick={() => copyToClipboard(item)}
+                  className="border border-slate-600 text-slate-600 rounded px-2 ml-auto"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
           </li>
         ))}
       </ul>
