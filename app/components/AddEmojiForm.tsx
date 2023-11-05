@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { getCookie } from "../hooks/useCookie";
+import PrimaryButton from "./PrimaryButton";
 
 export default function AddEmojiForm() {
   const [textStr, setText] = useState("");
@@ -49,35 +50,39 @@ export default function AddEmojiForm() {
       <label htmlFor="" className="flex flex-col">
         Title:
         <input
+          required
           name="title"
           type="text"
           placeholder="スヤァ"
           maxLength={20}
           value={titleStr}
           onChange={(e) => setTitleStr(e.target.value)}
-          className="border-solid border-2 border-orange-200"
+          className="border leading-8 mb-4"
         />
       </label>
       <label htmlFor="" className="flex flex-col">
         Text
         <textarea
+          required
           name="text"
           id="clipboard-form"
           cols={30}
-          rows={8}
+          rows={6}
           maxLength={200}
           placeholder="( ˘ω˘ )ｽﾔｧ…"
           value={textStr}
           onChange={(e) => {
             setText(e.target.value);
           }}
-          className="border-solid border-2 border-orange-200"
+          className="border leading-8 mb-4"
         ></textarea>
       </label>
       <div className="flex justify-end">
-        <button className="bg-orange-600 text-white rounded p-2 mt-4">
-          Submit
-        </button>
+        <PrimaryButton
+          type={"submit"}
+          text={"Submit"}
+          additionalClassName={"h-12 px-6"}
+        />
       </div>
     </form>
   );
