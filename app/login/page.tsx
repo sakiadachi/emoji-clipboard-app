@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import PrimaryButton from "../components/PrimaryButton";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,10 +43,11 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen  max-w-lg mx-auto flex items-center">
+    <main className="min-h-screen max-w-lg mx-auto flex flex-col justify-center items-center">
+      <h1 className="text-xl mb-10">Login</h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col grow p-12 border rounded"
+        className="flex flex-col p-12 border rounded mb-10"
       >
         <label className="flex flex-col mb-6 leading-8">
           User Name:
@@ -62,6 +64,9 @@ export default function LoginPage() {
           additionalClassName={"h-12"}
         />
       </form>
+      <Link href="/registration" className="text-teal-600">
+        Create Account
+      </Link>
     </main>
   );
 }
