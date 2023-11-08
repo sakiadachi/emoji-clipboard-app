@@ -47,7 +47,7 @@ export default function EmojiList() {
       <h1 className="text-xl mb-4">Clipboard List</h1>
       <ul>
         {clipboards.map((item) => (
-          <li key={item.id} className="mb-4">
+          <li key={item.uuid} className="mb-4">
             <div
               onClick={() => {
                 copyToClipboard(item);
