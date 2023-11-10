@@ -9,10 +9,13 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     async function authUser() {
-      const response = await fetch("http://localhost:8000/auth/user/", {
-        method: "GET",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/user/`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
       if (response.status === 403) {
         // Authentication Failed
         router.replace("/login");

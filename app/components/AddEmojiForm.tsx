@@ -10,6 +10,7 @@ export default function AddEmojiForm() {
 
   const clearState = () => {
     setText("");
+    setTitleStr("");
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
