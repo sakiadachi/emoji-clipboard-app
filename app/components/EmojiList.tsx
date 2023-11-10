@@ -20,7 +20,7 @@ async function fetchClipboards(): Promise<Clipboard[]> {
   return response.json();
 }
 
-async function likeClipboard(item: Clipboard): Promise<Clipboard[]> {
+async function likeClipboard(item: Clipboard): Promise<Response> {
   const csrftoken = getCookie("csrftoken");
   if (!csrftoken) {
     throw new Error("CSRF Token missing");
@@ -41,12 +41,7 @@ async function likeClipboard(item: Clipboard): Promise<Clipboard[]> {
       }),
     }
   );
-  if (!response.ok) {
-    const error = response.json();
-    console.error(error);
-    return [];
-  }
-  return response.json();
+  return response;
 }
 export default function EmojiList() {
   const [clipboards, setClipboardList] = useState<Clipboard[]>([]);
@@ -80,7 +75,10 @@ export default function EmojiList() {
       order: item.order + 1,
     } as Clipboard;
 
-    await likeClipboard(_item);
+    const response = await likeClipboard(_item);
+    if (response.ok) {
+      alert("Order changed");
+    }
   };
 
   if (isLoading) return <p>Loading ...</p>;
@@ -102,7 +100,10 @@ export default function EmojiList() {
               <p className="whitespace-pre-line break-words">{item.text}</p>
               <div className="flex justify-end">
                 <button
-                  onClick={() => onClickLike(item)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClickLike(item);
+                  }}
                   className="border border-slate-600 text-slate-600 rounded px-2 ml-auto"
                 >
                   👆I Like it!
