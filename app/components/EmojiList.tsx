@@ -5,10 +5,13 @@ import { Clipboard } from "../interfaces/Clipboard";
 import { getCookie } from "../hooks/useCookie";
 
 async function fetchClipboards(): Promise<Clipboard[]> {
-  const response = await fetch("http://localhost:8000/api/clipboards/", {
-    method: "GET",
-    credentials: "include",
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clipboards/`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
   if (!response.ok) {
     const error = response.json();
     console.error(error);

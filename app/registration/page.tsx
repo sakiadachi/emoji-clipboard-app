@@ -25,19 +25,22 @@ export default function RegistartionPage() {
     /**
      * Registration request
      */
-    const response = await fetch("http://localhost:8000/register/", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        ...{ "Content-Type": "application/json" },
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-        password2: confirmPassword,
-      }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/register/`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          ...{ "Content-Type": "application/json" },
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          password2: confirmPassword,
+        }),
+      }
+    );
     setIsLoading(false);
     if (!response.ok) {
       const error = await response.json();

@@ -15,13 +15,16 @@ export default function LogoutPage() {
       if (!csrftoken) {
         throw new Error("CSRF Token missing");
       }
-      const response = await fetch("http://localhost:8000/auth/logout/", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "X-CSRFToken": csrftoken,
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/logout/`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "X-CSRFToken": csrftoken,
+          },
+        }
+      );
       const content: { detail: string } = await response.json();
       setLogoutSuccess(content["detail"]);
     };
