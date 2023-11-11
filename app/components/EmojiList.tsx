@@ -26,7 +26,7 @@ async function likeClipboard(item: Clipboard): Promise<Response> {
     throw new Error("CSRF Token missing");
   }
   const response = await fetch(
-    `http://localhost:8000/api/clipboards/${item.uuid}/`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clipboards/${item.uuid}/`,
     {
       method: "PUT",
       credentials: "include",

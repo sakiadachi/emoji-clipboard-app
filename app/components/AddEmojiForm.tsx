@@ -24,20 +24,23 @@ export default function AddEmojiForm() {
     const baseHeaders = { "Content-Type": "application/json" };
     const csrftoken = getCookie("csrftoken");
 
-    const response = await fetch("http://localhost:8000/api/clipboards/", {
-      method: "POST",
-      credentials: "include",
-      headers: csrftoken
-        ? {
-            ...baseHeaders,
-            "X-CSRFToken": csrftoken,
-          }
-        : baseHeaders,
-      body: JSON.stringify({
-        title,
-        text,
-      }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clipboards/`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: csrftoken
+          ? {
+              ...baseHeaders,
+              "X-CSRFToken": csrftoken,
+            }
+          : baseHeaders,
+        body: JSON.stringify({
+          title,
+          text,
+        }),
+      }
+    );
     if (!response.ok) {
       const error = await response.json();
       console.error(error);
