@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getCookie } from "../hooks/useCookie";
 import Link from "next/link";
+import { fetchApi } from "../libs/fetch";
 
 export default function LogoutPage() {
   const [logoutSuccess, setLogoutSuccess] = useState<string | undefined>(
@@ -11,20 +12,9 @@ export default function LogoutPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const csrftoken = getCookie("csrftoken");
-      if (!csrftoken) {
-        throw new Error("CSRF Token missing");
-      }
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/logout/`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "X-CSRFToken": csrftoken,
-          },
-        }
-      );
+      const response = await fetchApi(`auth/logout/`, {
+        method: "POST",
+      });
       const content: { detail: string } = await response.json();
       setLogoutSuccess(content["detail"]);
     };

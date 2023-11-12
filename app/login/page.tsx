@@ -5,6 +5,7 @@ import { FormEvent } from "react";
 import PrimaryButton from "../components/PrimaryButton";
 import Link from "next/link";
 import { getCookie } from "../hooks/useCookie";
+import { fetchApi } from "../libs/fetch";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -20,31 +21,19 @@ export default function LoginPage() {
     const username = formData.get("username");
     const password = formData.get("password");
 
-    const csrftoken = getCookie("csrftoken");
-    if (!csrftoken) {
-      throw new Error("CSRF Token missing");
-    }
-    const baseHeaders = { "Content-Type": "application/json" };
-
     /**
      * Login request
      */
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login/`,
+    const response = await fetchApi(
+      `auth/login/`,
       {
         method: "POST",
-        credentials: "include",
-        headers: csrftoken
-          ? {
-              ...baseHeaders,
-              "X-CSRFToken": csrftoken,
-            }
-          : baseHeaders,
         body: JSON.stringify({
           username,
           password,
         }),
-      }
+      },
+      { "Content-Type": "application/json" }
     );
     if (!response.ok) {
       const error = await response.json();
