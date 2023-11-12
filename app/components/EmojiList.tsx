@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ClipboardType } from "../interfaces/Clipboard";
 import ClipboardCard from "./ClipboardCard";
 import Loading from "../loading";
@@ -36,16 +36,15 @@ export default function EmojiList() {
   }, []);
 
   if (isLoading) return <Loading />;
+  if (clipboards.length === 0) return <div>No data</div>;
   return (
     <div>
       <h1 className="text-xl mb-4">Clipboard List</h1>
-      <Suspense fallback={<Loading />}>
-        <ul>
-          {clipboards.map((clipboard) => (
-            <ClipboardCard key={clipboard.uuid} clipboard={clipboard} />
-          ))}
-        </ul>
-      </Suspense>
+      <ul>
+        {clipboards.map((clipboard) => (
+          <ClipboardCard key={clipboard.uuid} clipboard={clipboard} />
+        ))}
+      </ul>
     </div>
   );
 }
