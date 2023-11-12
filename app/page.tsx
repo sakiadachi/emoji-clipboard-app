@@ -2,12 +2,14 @@
 import EmojiList from "./components/EmojiList";
 import AddEmojiForm from "./components/AddEmojiForm";
 import Header from "./components/Header";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchApi } from "./libs/fetch";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
+  const [showForm, setShowForm] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetchApi(`auth/user/`);
@@ -23,7 +25,17 @@ export default function Home() {
     <main className="min-h-screen max-w-screen-md mx-auto p-10">
       <Header />
       <div className="gap-4">
-        <AddEmojiForm />
+        <div className="flex">
+          <button
+            onClick={() => setShowForm(!showForm)}
+            title="toggle form"
+            className="bg-slate-100 px-3 py-2 rounded ml-auto font-semibold"
+          >
+            {showForm ? "-" : "+"}
+          </button>
+        </div>
+
+        {showForm ? <AddEmojiForm /> : <div />}
         <EmojiList />
       </div>
     </main>
