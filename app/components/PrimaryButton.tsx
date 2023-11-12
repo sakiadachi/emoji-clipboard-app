@@ -12,7 +12,7 @@ type PropsType = {
 export default function PrimaryButton(props: PropsType) {
   const type = props.type ?? "button";
   const baseClassName =
-    "pointer-events-auto rounded-md bg-teal-600 font-semibold text-white hover:bg-teal-500";
+    "pointer-events-auto rounded-md bg-teal-600 font-semibold text-white hover:bg-teal-500 focus:bg-teal-500";
   const className = props.additionalClassName
     ? props.additionalClassName + " " + baseClassName
     : baseClassName;

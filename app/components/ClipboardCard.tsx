@@ -9,32 +9,32 @@ type PropsType = {
 export default function ClipboardCard(props: PropsType) {
   const { clipboard } = props;
   return (
-    <li key={clipboard.uuid} className="mb-4">
-      <div
-        onClick={() => {
-          copyToClipboard(clipboard);
-        }}
-        className="pointer-events-auto w-full bg-slate-50 hover:bg-slate-100 text-black rounded text-lg p-4"
-      >
-        <p>{clipboard.title}</p>
-        <p className="whitespace-pre-line break-words">{clipboard.text}</p>
-        <div className="flex justify-end">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onClickLike(clipboard);
-            }}
-            className="border border-slate-600 text-slate-600 rounded px-2 ml-auto"
-          >
-            👆I Like it!
-          </button>
-          <button
-            onClick={() => copyToClipboard(clipboard)}
-            className="border border-slate-600 text-slate-600 rounded px-2 ml-2"
-          >
-            Click to copy
-          </button>
-        </div>
+    <li
+      className="pointer-events-auto border w-full border-slate-200 hover:border-slate-500 rounded text-lg p-4 mb-4 cursor-pointer"
+      onClick={() => {
+        copyToClipboard(clipboard);
+      }}
+    >
+      <p className="whitespace-pre-line break-words">{clipboard.text}</p>
+      <div className="flex justify-end items-baseline mt-2">
+        <p className="text-slate-600 text-sm">
+          clipboard title: {clipboard.title}
+        </p>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClickLike(clipboard);
+          }}
+          className="hover:bg-amber-100 focus:bg-amber-100 rounded p-2 ml-auto text-sm"
+        >
+          👆 I Like it!
+        </button>
+        <button
+          onClick={() => copyToClipboard(clipboard)}
+          className="hover:bg-amber-100 focus:bg-amber-100 rounded p-2 ml-4 text-sm"
+        >
+          🗒️ Copy
+        </button>
       </div>
     </li>
   );

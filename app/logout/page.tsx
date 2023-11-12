@@ -29,7 +29,7 @@ export default function LogoutPage() {
         </h1>
         <Link
           href="/login"
-          className="pointer-events-auto rounded-md  hover:bg-teal-50 px-2 leading-6 text-teal-600 ml-auto py-1"
+          className="pointer-events-auto rounded-md hover:bg-teal-50 px-2 leading-6 text-teal-600 ml-auto py-1"
         >
           Go to Login page
         </Link>

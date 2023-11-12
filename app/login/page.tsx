@@ -53,11 +53,11 @@ export default function LoginPage() {
       >
         <label className="flex flex-col mb-6 leading-8">
           User Name:
-          <input type="text" name="username" className="mt-2" />
+          <input type="text" name="username" className="border mt-2" />
         </label>
         <label className="flex flex-col mb-10 leading-8">
           Password:
-          <input type="password" name="password" className="mt-2" />
+          <input type="password" name="password" className="border mt-2" />
         </label>
 
         <PrimaryButton
