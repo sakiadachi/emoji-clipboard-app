@@ -10,7 +10,7 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetchApi(`auth/user`);
+      const response = await fetchApi(`auth/user/`);
       const content: { detail: string } = await response.json();
       if (response.status == 403) {
         router.replace("/login");

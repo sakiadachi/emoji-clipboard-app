@@ -19,6 +19,7 @@ export async function fetchApi(
         };
   return await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${path}`, {
     ...options,
+      credentials: "include",
     headers: {
       ...additionalHeaders,
       ...csrfHeader,

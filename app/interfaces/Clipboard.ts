@@ -1,4 +1,4 @@
-export type Clipboard = {
+export type ClipboardType = {
   uuid: string;
   text: string;
   title: string;

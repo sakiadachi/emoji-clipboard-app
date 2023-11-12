@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { getCookie } from "../hooks/useCookie";
 import PrimaryButton from "./PrimaryButton";
+import { fetchApi } from "../libs/fetch";
 
 export default function AddEmojiForm() {
   const [textStr, setText] = useState("");
@@ -21,25 +22,16 @@ export default function AddEmojiForm() {
     const text = formData.get("text");
     const title = formData.get("title");
 
-    const baseHeaders = { "Content-Type": "application/json" };
-    const csrftoken = getCookie("csrftoken");
-
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clipboards/`,
+    const response = await fetchApi(
+      "api/clipboards/",
       {
         method: "POST",
-        credentials: "include",
-        headers: csrftoken
-          ? {
-              ...baseHeaders,
-              "X-CSRFToken": csrftoken,
-            }
-          : baseHeaders,
         body: JSON.stringify({
           title,
           text,
         }),
-      }
+      },
+    { "Content-Type": "application/json" },
     );
     if (!response.ok) {
       const error = await response.json();
@@ -51,7 +43,7 @@ export default function AddEmojiForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="" className="flex flex-col">
+      <label className="flex flex-col">
         Title:
         <input
           required
@@ -64,7 +56,7 @@ export default function AddEmojiForm() {
           className="border leading-8 mb-4"
         />
       </label>
-      <label htmlFor="" className="flex flex-col">
+      <label className="flex flex-col">
         Text
         <textarea
           required
