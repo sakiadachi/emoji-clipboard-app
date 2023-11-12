@@ -1,26 +1,18 @@
 import { ClipboardType } from "../interfaces/Clipboard";
-import { getCookie } from "./useCookie";
+import { fetchApi } from "../libs/fetch";
 
 export async function likeClipboard(item: ClipboardType): Promise<Response> {
-  const csrftoken = getCookie("csrftoken");
-  if (!csrftoken) {
-    throw new Error("CSRF Token missing");
-  }
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clipboards/${item.uuid}/`,
+  const response = await fetchApi(
+    `api/clipboards/${item.uuid}/`,
     {
       method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrftoken,
-      },
       body: JSON.stringify({
         title: item.title,
         text: item.text,
         order: item.order,
       }),
-    }
+    },
+    { "Content-Type": "application/json" }
   );
   return response;
 }
