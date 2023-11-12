@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import PrimaryButton from "../components/PrimaryButton";
 import Link from "next/link";
+import { getCookie } from "../hooks/useCookie";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,6 +20,12 @@ export default function LoginPage() {
     const username = formData.get("username");
     const password = formData.get("password");
 
+    const csrftoken = getCookie("csrftoken");
+    if (!csrftoken) {
+      throw new Error("CSRF Token missing");
+    }
+    const baseHeaders = { "Content-Type": "application/json" };
+
     /**
      * Login request
      */
@@ -27,9 +34,12 @@ export default function LoginPage() {
       {
         method: "POST",
         credentials: "include",
-        headers: {
-          ...{ "Content-Type": "application/json" },
-        },
+        headers: csrftoken
+          ? {
+              ...baseHeaders,
+              "X-CSRFToken": csrftoken,
+            }
+          : baseHeaders,
         body: JSON.stringify({
           username,
           password,
