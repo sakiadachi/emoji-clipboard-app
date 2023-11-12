@@ -18,7 +18,7 @@ export default function Home() {
       console.log(content);
     };
     fetchData();
-  }, []);
+  }, [router]);
   return (
     <main className="min-h-screen max-w-screen-md mx-auto p-10">
       <Header />
