@@ -31,7 +31,7 @@ export default function AddEmojiForm() {
           text,
         }),
       },
-    { "Content-Type": "application/json" },
+      { "Content-Type": "application/json" }
     );
     if (!response.ok) {
       const error = await response.json();
@@ -49,7 +49,7 @@ export default function AddEmojiForm() {
           required
           name="title"
           type="text"
-          placeholder="スヤァ"
+          placeholder="Sleepy kaomoji"
           maxLength={20}
           value={titleStr}
           onChange={(e) => setTitleStr(e.target.value)}
@@ -65,7 +65,7 @@ export default function AddEmojiForm() {
           cols={30}
           rows={6}
           maxLength={200}
-          placeholder="( ˘ω˘ )ｽﾔｧ…"
+          placeholder="( ˘ω˘ )…"
           value={textStr}
           onChange={(e) => {
             setText(e.target.value);
