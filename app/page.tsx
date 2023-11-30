@@ -22,7 +22,7 @@ export default function Home() {
       return await res.json();
     });
 
-  const { error, isLoading } = useSWR("auth/user/", fetcher);
+  const { data, error, isLoading } = useSWR("auth/user/", fetcher);
 
   if (error) {
     return (
@@ -35,7 +35,7 @@ export default function Home() {
     );
   }
 
-  if (isLoading) {
+  if (!data || isLoading) {
     return (
       <main className="min-h-screen max-w-screen-md mx-auto p-10">
         <Header />
