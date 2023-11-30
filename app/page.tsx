@@ -6,7 +6,7 @@ import { useState } from "react";
 import { fetchApi } from "./libs/fetch";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
-import Loading from "./loading";
+import Loading from "./components/loading";
 
 export default function Home() {
   const router = useRouter();

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { ClipboardType } from "../interfaces/Clipboard";
 import ClipboardCard from "./ClipboardCard";
-import Loading from "../loading";
+import Loading from "./loading";
 
 export const fetchClipboards = async (): Promise<ClipboardType[]> => {
   const res = await fetch(
