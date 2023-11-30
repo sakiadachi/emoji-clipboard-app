@@ -2,25 +2,50 @@
 import EmojiList from "./components/EmojiList";
 import AddEmojiForm from "./components/AddEmojiForm";
 import Header from "./components/Header";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { fetchApi } from "./libs/fetch";
 import { useRouter } from "next/navigation";
+import useSWR from "swr";
+import Loading from "./loading";
 
 export default function Home() {
   const router = useRouter();
   const [showForm, setShowForm] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetchApi(`auth/user/`);
-      const content: { detail: string } = await response.json();
-      if (response.status == 403) {
+  const fetcher = () =>
+    fetchApi("auth/user/").then(async (res) => {
+      if (res.status === 403) {
+        // 認証失敗
         router.replace("/login");
+        return;
       }
-      console.log(content);
-    };
-    fetchData();
-  }, [router]);
+      return await res.json();
+    });
+
+  const { error, isLoading } = useSWR("auth/user/", fetcher);
+
+  if (error) {
+    return (
+      <main className="min-h-screen max-w-screen-md mx-auto p-10">
+        <Header />
+        <div className="gap-4">
+          <p>Error</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen max-w-screen-md mx-auto p-10">
+        <Header />
+        <div className="gap-4">
+          <Loading />
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen max-w-screen-md mx-auto p-10">
       <Header />
